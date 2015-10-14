@@ -10,7 +10,7 @@
 запускать тесты не озадачиваясь, на чем эти тесты написаны. 
 
 В нашем случае, `npm package script` будет фасадом для нашего инструментария. 
-Комманды `install`, `start`, `test` уже встроенн, и позволяют из запускать команду `npm start`, без полного набора на клавиатуре
+Комманды `install`, `start`, `test` уже встроенны, и позволяют из запускать команду `npm start`, без полного набора на клавиатуре
 `npm run start`, `npm run stop`и `npm run test`. Доступные встроенные шорткаты [можно поглядеть тут](https://docs.npmjs.com/misc/scripts).
 Стоит заметить, что `run publish` относится к публикации проекта в npm репозитории, а не  сборке проекта для  вашего использования. т.е. это не 
 `deploy`, хотя некоторые используют слово publish для деплоя своих проектов в grunt/gulp.
@@ -95,6 +95,7 @@ $ grunt --version
 grunt: команда не найдена
 ```
 Не знает наша система команды `grunt`.
+
 ```
 {
   "name": "no_-g_for_me",
@@ -116,3 +117,127 @@ grunt-cli v0.1.13
 grunt v0.4.5
 ```
 где `--`символ позволяющий передать аргументы в  скрипт пакета.
+
+#Практическое использование#
+Еще раз. Первое, запуск `npm run command`, запускает связанные  в `package.json` c меткой `command` bash- команды. Второе,
+практически все инструменты имеют CLI варианты. Т.е. прописан у нас  `"lint": "jshint **.js"`, запуск `npm run lint` запустит
+в bash комманду `jshint **.js`.
+
+Встроенные команды (npm test, npm start, npm stop, npm publish)
+- ссылки для самых распростарннеых действий
+- стандартный интерфейс для npm ( для тестирования, запуска/остановки проекта).
+
+Запуск `npm run` без аругументов выводит все переопредленные нами встроенные (lifecycle scripts) и наши
+кастомные (available via 'npm run-script') комманды.
+
+```
+$ npm run
+Lifecycle scripts included in npm_test:
+  test
+    echo "Error: no test specified" && exit 1
+
+available via `npm run-script`:
+  build:css
+    node-sass ./sass/index.scss | postcss --use autoprefixer > ./build/index.css
+  build:js
+     browserify -d ./js/app.js  -o ./build/app.js
+  build
+    npm run build:css && npm run build:js
+  preecho
+    echo 'preecho!'
+  echo
+    echo 'test start'
+  postecho
+    echo 'postecho!'
+```
+
+Т.к.`node_modules/.bin` добавляется в `PATH` шела, то и исполняемые файлы (создаваемые пакетами и складывающиеся в 'node_modules')
+при `npm install` можно запускать "напрямую", без прописывания полного пути. Не нужно прописывать `"./node_modules/.bin/browserify`, достаточно будет `browserify`.
+
+#Переменные скрипта#
+Кроме `PATH`, скриптам достпуно множество переменных. 
+
+```
+"scripts": {
+    "env": "env"
+}
+```
+
+Поглядеть можно  создав скрипт `env` и запустив `npm run env`.
+Можно перехватить имя исполняемого скрипта, уровень логирования, различные настройки прописанные в `package.json` (обращаясь к ним через `$npm_package_...`)
+Символ `--` позволяет передать параметры внутрь пакета.
+
+Для конфигурационных настроек ([Per-Package Config Settings](https://docs.npmjs.com/misc/config#per-package-config-settings))
+в `package.json` есть специальная `config` директива.
+
+```
+{
+  "name": "npm_test",
+  "version": "1.0.0",
+  "description": "bla-bla-bla",
+  "main": "index.js",
+  "config":{
+    "rootDir": "/"
+  },
+  "scripts": {
+    "ls": " ls /home/user";
+    "lsInt": "ls $npm_package_config_rootDir",
+    "lsExt": "npm run lsInt --npm_test:rootDir=/home",
+    
+  }
+  
+}
+```
+
+Запуск скрипта `npm run ls` ожидаемо выводит домашнюю дирректорию в кратком формате.
+
+```
+$ npm run ls
+
+> npm_test@1.0.0 ls /media/doki/WebstromProjects/npm_scripts
+> ls /home/koskh
+
+Documents ... Документы...Рабочий стол
+```
+
+Используем `--` для  передачи параметра внутрь скрипта. Выводит содержимое домашней дирреткории в расширеном формате 
+(включая скрытые файлы/директории).
+
+```
+$ npm run ls -- -a
+
+> ls /home/user "-a"
+
+.              .config      .java            .mplayer       ...
+..             .dbus        .gconf           .jgoodies      ...
+.android       .dmrc        .gitconfig       .kde         .npm ...        
+```
+
+Используем "внутренние" настройки пакета`"config":{...}` ( передавая корневую директорию прсмотора), команда выводит содержимое корневой директори.
+
+```
+$ npm run lsInt
+
+> npm_test@1.0.0 lsInt npm_scripts
+> ls $npm_package_config_rootDir
+
+... bin  boot  cdrom  dev  etc  home  initrd.img   lib  lib32  lib64  ...
+```
+
+Используем "внешние" настройки, переопределяя "внутренние", выводит содержимое `home` дирректории.
+
+```
+$ npm run lsExt
+
+> npm_test@1.0.0 lsExt /media/doki/WebstromProjects/npm_scripts
+> npm run lsInt --npm_test:rootDir=/home
+
+
+> npm_test@1.0.0 lsInt /media/doki/WebstromProjects/npm_scripts
+> ls $npm_package_config_rootDir
+
+... userName userName2 ...
+```
+
+Обратите внимание, `bash` запускается с правами текущего пользователя, но не считывает `bashrc`.
+Алиас `~` нельзя в `config` прописать.
