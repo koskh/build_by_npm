@@ -194,7 +194,6 @@ available via `npm run-script`:
 ```
 $ npm run ls
 
-> npm_test@1.0.0 ls /media/doki/WebstromProjects/npm_scripts
 > ls /home/koskh
 
 Documents ... Документы...Рабочий стол
@@ -229,11 +228,8 @@ $ npm run lsInt
 ```
 $ npm run lsExt
 
-> npm_test@1.0.0 lsExt /media/doki/WebstromProjects/npm_scripts
 > npm run lsInt --npm_test:rootDir=/home
 
-
-> npm_test@1.0.0 lsInt /media/doki/WebstromProjects/npm_scripts
 > ls $npm_package_config_rootDir
 
 ... userName userName2 ...
@@ -241,3 +237,42 @@ $ npm run lsExt
 
 Обратите внимание, `bash` запускается с правами текущего пользователя, но не считывает `bashrc`.
 Алиас `~` нельзя в `config` прописать.
+
+#Синтаксис Bash#
+```
+&& для запуска цепочкой
+& для одновременного запуска 
+< для  передачи содержимого из файла или команды
+> для  передачи содержимого в файла или команду
+| для передачи вывода (stdout) одной команды на вход (stdin) другой команды
+```
+    
+Также поддерживается(?) Windows. Для обхода проблем с отсутствующими `rm` используйте пакет (rimraf)[https://www.npmjs.org/package/rimraf]
+ 
+#Наш Инструментарий#
+Что же, давайте попробуем уйти от grunt/gulp.
+
+###Запуск нескольких заданий###
+Для запуска нескольких заданий одной коммандой можно использовать `pre-` и `post-` варианты команды (удобно, когда выполнение
+команды требует выполнения предварительных действий, минификаци, например), или можно использовать `&&` или `&` связку.
+
+```
+ "dependencies": {
+    ...
+    "autoprefixer": "^6.0.3",
+    "postcss-cli": "^2.1.0",
+    ...
+  },
+"scripts": {
+    "lint": "jshint **",
+    "build:css": "node-sass ./sass/index.scss | postcss --use autoprefixer > ./build/index.css",
+    "build:js": " browserify -d ./js/app.js  -o ./build/app.js",
+    "prebuild": "npm run lint",
+    "build": "npm run build:css && npm run build:js",
+}
+```
+
+`npm run build` сначала прогонит проверку lint-ом (prebuild- комманда), затем соберет css, затем js.
+Измените `&&` на `&` и собирайте одновременно стили и приложение одновременно. 
+
+
