@@ -41,17 +41,14 @@
 ```
 $npm run echo
 
-> npm_test@1.0.0 preecho /media/doki/WebstromProjects/npm_scripts
 > echo 'preecho!'
 
 preecho!
 
-> npm_test@1.0.0 echo /media/doki/WebstromProjects/npm_scripts
 > echo 'test start'
 
 test start
 
-> npm_test@1.0.0 postecho /media/doki/WebstromProjects/npm_scripts
 > echo 'postecho!'
 
 postecho!
