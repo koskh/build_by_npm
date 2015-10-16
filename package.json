@@ -8,7 +8,9 @@
     "dataFormat": "%m/%d/%y_%H:%M:%S_%Z%z"
   },
   "scripts": {
-    "addHeader": "date '+/* '$npm_package_config_banner' - '$npm_package_name'   - ver.'$npm_package_version' - '$npm_package_config_dataFormat' */' > ./samples/build/index.css"
+    "add:header": "date '+/* '$npm_package_config_banner' - '$npm_package_name'   - ver.'$npm_package_version' - '$npm_package_config_dataFormat' */' > ./samples/build/index.css",
+    "prebuild:css": "npm run add:header",
+    "build:css": " node-sass ./samples/style/index.scss >> ./samples/build/index.css"
   },
   "repository": {
     "type": "git",

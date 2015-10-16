@@ -312,7 +312,28 @@ gulp.task('css', function () {
 `npm version major` изменяет `1.1.1 -> 2.0.0`
 Дополнительно  создаст коммит, тэг. Название тегов, текст коммита настраивается.
 
-//TODO: добавление баннера в файл.
+##Добавление банера в файл###
+
+```
+{
+  "name": "build_by_npm",
+  "version": "0.0.1",
+  "description": "Description of npm",
+  "main": "index.js",
+  "config": {
+    "banner": "Header_banner_text",
+    "dataFormat": "%m/%d/%y_%H:%M:%S_%Z%z"
+  },
+  "scripts": {
+    "add:header": "date '+/* '$npm_package_config_banner' - '$npm_package_name'   - ver.'$npm_package_version' - '$npm_package_config_dataFormat' */' > ./samples/build/index.css",
+    "prebuild:css": "npm run add:header",
+    "build:css": " node-sass ./samples/style/index.scss >> ./samples/build/index.css"
+  }
+  ...
+```
+в `config` прописываем текст банера, формат времени для команды `date`. В скрипте будем обращаться к ним через `$npm_package`.
+`prebuild:css` создает строку и дампит (`>`) в файл.
+`build:css` дописывает (`>>`) результат своей работы в файл.
 
 ###Очистка###
 Практически всегда, билдящие скрипты очищают дирректорию сохранения.
