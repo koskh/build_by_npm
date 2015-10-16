@@ -309,9 +309,10 @@ gulp.task('css', function () {
 Можно связать git  и версионирование файлов.
 `npm version patch` изменяет `1.1.1 -> 1.1.2`
 `npm version minor` изменяет `1.1.1 -> 1.2.0`
-`npm version major' изменяет `1.1.1 -> 2.0.0`
+`npm version major` изменяет `1.1.1 -> 2.0.0`
 Дополнительно  создаст коммит, тэг. Название тегов, текст коммита настраивается.
 
+//TODO: добавление баннера в файл.
 
 ###Очистка###
 Практически всегда, билдящие скрипты очищают дирректорию сохранения.
@@ -329,3 +330,33 @@ gulp.task('css', function () {
   "clean": "rimraf dist"
 }
 ```
+
+###Наблюдение за файлами###
+//TODO:Модная тема. но мне без надобности. Дописать, как будет желание. Информацию смотри в блоге-оригинале.
+
+###Запуск файлов, что идут без бинарников###
+Иногда полезные утилиты, библиотеки  не поставляют файлы для коммандной строки. Напрмиер, [favicon](https://www.npmjs.org/package/favicons)
+и плагины grunt выступают нашими спасителями. Но, не тут то было. мы не сдаемся так просто. 
+Напишите свою обвязку и запускайте из `npm`
+```
+// scripts/favicon.js
+var favicons = require('favicons');  
+var path = require('path');  
+favicons({  
+    source: path.resolve('../assets/images/logo.png'),
+    dest: path.resolve('../dist/'),
+});
+```
+
+```
+"devDependencies": {
+  "favicons": "latest",
+},
+"scripts": {
+  "build:favicon": "node scripts/favicon.js",
+}
+```
+//TODO: добавить примеров
+
+###Пример сложного npm- билд скрипта###
+[Пример скрипта](https://github.com/keithamus/npm-scripts-example) описанного в блоге.
