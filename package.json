@@ -1,0 +1,19 @@
+{
+  "name": "build_by_npm",
+  "version": "0.0.1",
+  "description": "Description of npm",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koskh/build_by_npm.git"
+  },
+  "author": "koskh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/koskh/build_by_npm/issues"
+  },
+  "homepage": "https://github.com/koskh/build_by_npm#readme"
+}
