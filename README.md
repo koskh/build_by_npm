@@ -333,7 +333,28 @@ gulp.task('css', function () {
 ```
 в `config` прописываем текст банера, формат времени для команды `date`. В скрипте будем обращаться к ним через `$npm_package`.
 `prebuild:css` создает строку и дампит (`>`) в файл.
-`build:css` дописывает (`>>`) результат своей работы в файл.
+`build:css` дописывает (`>>`) результат своей работы в файл. Можно без `prebuilder-a`
+
+```
+"build:css": "npm run add:header && node-sass ./samples/style/index.scss >> ./samples/build/index.css"
+```
+Другой вариант. более  близкий нам по духу:
+создаем хелпер `add-banner.js`, так же собираем информацию из `package.json`. Теперь можно и пробелы поставить.
+
+```
+'use strict';
+
+var pckgJson = require(process.env.PWD +'/package.json');
+var banner = '/* ' + pckgJson.name + ' - '+ pckgJson.config.banner +' - ' + new Date() + ' */\n';
+
+process.stdout.write(banner);
+process.stdin.pipe(process.stdout);
+```
+Прописываем запуск.
+```
+    "build:css": "node-sass ./samples/style/index.scss | node ./utils/build/add-banner.js > ./samples/build/index.css"
+```
+
 
 ###Очистка###
 Практически всегда, билдящие скрипты очищают дирректорию сохранения.
@@ -357,7 +378,7 @@ gulp.task('css', function () {
 
 ###Запуск файлов, что идут без бинарников###
 Иногда полезные утилиты, библиотеки  не поставляют файлы для коммандной строки. Напрмиер, [favicon](https://www.npmjs.org/package/favicons)
-и плагины grunt выступают нашими спасителями. Но, не тут то было. мы не сдаемся так просто. 
+И только плагин grunt  позволяет ее использовать. Но, не тут то было. Мы не сдаемся так просто. 
 Напишите свою обвязку и запускайте из `npm`
 ```
 // scripts/favicon.js
