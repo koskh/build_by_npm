@@ -410,4 +410,35 @@ favicons({
 [Бенчмарк минификаторов](http://goalsmashers.github.io/css-minification-benchmark/)
 Минификатор можно выбрать на свой вкус. В нашем примере, воспользуемся [`csswring`](https://github.com/hail2u/node-csswring). 
 Это плагин к PostCSS.
-PostCSS позволяет передавать список используемых плагинов и их параметры из config файла.
+PostCSS позволяет передавать список используемых плагинов и их параметры из config файла, так тто нам не придется писать
+в коммандном стиле длинную портянку  параметров.
+Для добавления баннеров можно воспользоваться `postcss-banner`. Позволяет добавить баннер в начало или конец файла. Но
+не позовляет добавить к тексту баннера время компиляции.
+
+`Config` файл в этом случае выглядел бы так.
+
+```
+{
+    "use": ["autoprefixer", "csswring", "postcss-banner"],
+
+    "autoprefixer": {
+        "browsers": "> 5%"
+    },
+    "csswring": {
+        "removeAllComments": true
+    },
+
+    "postcss-banner" : {
+        "banner":"banner_text_bla -bla- bla",
+        "footer": "footer_banner_text_"
+    }
+
+}
+```
+
+А строчка в разделе `scripts` для билда css выглядеть будет так:
+
+```
+"build:css": " node-sass ./sass/index.scss | postcss --config ./config.json  > ./build/index.css",
+
+```
