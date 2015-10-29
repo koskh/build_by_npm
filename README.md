@@ -439,6 +439,6 @@ PostCSS позволяет передавать список используе�
 А строчка в разделе `scripts` для билда css выглядеть будет так:
 
 ```
-"build:css": " node-sass ./sass/index.scss | postcss --config ./config.json  > ./build/index.css",
+"build:css": " node-sass ./sass/index.scss | postcss --config ./utils/build/config.json  > ./build/index.css",
 
 ```

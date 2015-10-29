@@ -1,0 +1,16 @@
+{
+    "use": ["autoprefixer", "csswring", "postcss-banner"],
+
+    "autoprefixer": {
+    "browsers": "> 5%"
+},
+    "csswring": {
+    "removeAllComments": true
+},
+
+    "postcss-banner" : {
+    "banner":"banner_text_bla -bla- bla",
+     "footer": "footer_text_"
+}
+
+}

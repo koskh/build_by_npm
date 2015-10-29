@@ -7,14 +7,16 @@
     "banner": "Header_banner_text Заголовочный баннер приложения"
   },
   "dependencies": {
-    "node-sass": "^3.3.3",
     "autoprefixer": "^6.0.3",
+    "csswring": "^4.0.0",
+    "node-sass": "^3.3.3",
     "postcss": "^5.0.10",
-    "postcss-cli": "^2.1.0",
-    "csswring": "^4.0.0"
+    "postcss-banner": "^1.1.0",
+    "postcss-cli": "^2.1.0"
   },
   "scripts": {
-    "build:css": "node-sass ./samples/style/index.scss | node ./utils/build/add-banner.js > ./samples/build/index.css"
+    "build:css": "node-sass ./samples/style/index.scss | node ./utils/build/add-banner.js > ./samples/build/index.css",
+    "build:css:minif": "node-sass ./samples/style/index.scss | postcss --config ./utils/build/config.postcss.json  > ./samples/build/index.css"
   },
   "repository": {
     "type": "git",
