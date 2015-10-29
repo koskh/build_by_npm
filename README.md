@@ -403,7 +403,7 @@ favicons({
 //TODO: добавить примеров
 
 ###Пример сложного npm- билд скрипта###
-[Пример скрипта](https://github.com/keithamus/npm-scripts-example) описанного в блоге.
+[Пример скрипта](https://github.com/keithamus/npm-scripts-example)
 
 ### Сборка и минификация css###
 Будем собирать из sass в один файл,  минифицировать и добавлять баннер в заголовок (с датой- временем компиляции).
@@ -439,6 +439,14 @@ PostCSS позволяет передавать список используе�
 А строчка в разделе `scripts` для билда css выглядеть будет так:
 
 ```
-"build:css": " node-sass ./sass/index.scss | postcss --config ./utils/build/config.json  > ./build/index.css",
+"build:css:minif": " node-sass ./sass/index.scss | postcss --config ./utils/build/config.postcss.json  > ./build/index.css"
 
 ```
+
+Но в нашем, конкретном, случае нежелание добавлять даты нас очень печалит, так что мы снова используем свой `add-banner.js`,
+убрав из `config.postcss.json` упоминания о `postcss-banner`
+
+```
+"build:css:minif": "node-sass ./samples/style/index.scss | postcss --config ./utils/build/config.postcss.json | node ./utils/build/add-banner.js  > ./samples/build/index.css"
+```
+ 

@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build:css": "node-sass ./samples/style/index.scss | node ./utils/build/add-banner.js > ./samples/build/index.css",
-    "build:css:minif": "node-sass ./samples/style/index.scss | postcss --config ./utils/build/config.postcss.json  > ./samples/build/index.css"
+    "build:css:minif": "node-sass ./samples/style/index.scss | postcss --config ./utils/build/config.postcss.json | node ./utils/build/add-banner.js  > ./samples/build/index.css"
   },
   "repository": {
     "type": "git",
