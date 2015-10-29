@@ -6,6 +6,13 @@
   "config": {
     "banner": "Header_banner_text Заголовочный баннер приложения"
   },
+  "dependencies": {
+    "node-sass": "^3.3.3",
+    "autoprefixer": "^6.0.3",
+    "postcss": "^5.0.10",
+    "postcss-cli": "^2.1.0",
+    "csswring": "^4.0.0"
+  },
   "scripts": {
     "build:css": "node-sass ./samples/style/index.scss | node ./utils/build/add-banner.js > ./samples/build/index.css"
   },
