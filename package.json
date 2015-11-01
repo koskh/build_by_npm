@@ -12,11 +12,15 @@
     "node-sass": "^3.3.3",
     "postcss": "^5.0.10",
     "postcss-banner": "^1.1.0",
-    "postcss-cli": "^2.1.0"
+    "postcss-cli": "^2.1.0",
+    "browserify": "^12.0.1",
+    "minifyify": "^7.1.0"
   },
   "scripts": {
     "build:css": "node-sass ./samples/style/index.scss | node ./utils/build/add-banner.js > ./samples/build/index.css",
-    "build:css:minif": "node-sass ./samples/style/index.scss | postcss --config ./utils/build/config.postcss.json | node ./utils/build/add-banner.js  > ./samples/build/index.css"
+    "build:css:minif": "node-sass ./samples/style/index.scss | postcss --config ./utils/build/config.postcss.json | node ./utils/build/add-banner.js  > ./samples/build/index.css",
+    "build:js": " browserify -d ./samples/js/app.js   -o ./samples/build/app.js",
+    "build:js:minifyify": "browserify ./samples/js/app.js  -p [minifyify --no-map]  | node ./utils/build/add-banner.js > ./samples/build/app.js"
   },
   "repository": {
     "type": "git",

@@ -450,3 +450,15 @@ PostCSS позволяет передавать список используе�
 "build:css:minif": "node-sass ./samples/style/index.scss | postcss --config ./utils/build/config.postcss.json | node ./utils/build/add-banner.js  > ./samples/build/index.css"
 ```
  
+### Сборка и минификация js ###
+Задача  схожа со сборкой css. Сборка в один файл, минификация, соурсмап, баннер с временем компиляции.
+
+Для develop нам достаточно знать, что `browserify` создает встроенный `sourcemap` (ключ `-d`). Поэтому, нам вполне достаточно:
+```
+"build:js": " browserify -d ./js/app.js   -o ./build/app.js"
+```
+Для deploy, можно выбрать любой минификатор. Такие минификаторы как `minifyify`, `uglifyify` работают как плагины к `browserify`.
+ ```
+ "build:js:minifyify": "browserify ./samples/js/app.js  -p [minifyify --no-map]  | node ./utils/build/add-banner.js > ./samples/build/app.js"
+ ```
+ 
