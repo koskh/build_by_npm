@@ -467,3 +467,5 @@ PostCSS позволяет передавать список используе�
 "build:dev": "npm run build:css && npm run build:js",
 "build": "npm run build:css:minifyify && npm run build:js:minifyify"
 ```
+
+### Deploy ###

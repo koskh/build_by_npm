@@ -22,7 +22,7 @@
     "build:js": " browserify -d ./samples/js/app.js | node ./utils/build/add-banner.js > ./samples/build/app.js",
     "build:js:minifyify": "browserify ./samples/js/app.js  -p [minifyify --no-map]  | node ./utils/build/add-banner.js > ./samples/build/app.js",
     "build:dev": "npm run build:css && npm run build:js",
-    "build": "npm run build:css:minifyify && npm run build:js:minifyify"
+    "build:prod": "npm run build:css:minifyify && npm run build:js:minifyify"
   },
   "repository": {
     "type": "git",
