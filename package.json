@@ -2,19 +2,19 @@
   "name": "build_by_npm",
   "version": "0.0.1",
   "description": "Description of npm",
-  "main": "index.js",
   "config": {
     "banner": "Header_banner_text Заголовочный баннер приложения"
   },
   "dependencies": {
     "autoprefixer": "^6.0.3",
+    "browserify": "^12.0.1",
     "csswring": "^4.0.0",
+    "ejs": "^2.3.4",
+    "minifyify": "^7.1.0",
     "node-sass": "^3.3.3",
     "postcss": "^5.0.10",
     "postcss-banner": "^1.1.0",
-    "postcss-cli": "^2.1.0",
-    "browserify": "^12.0.1",
-    "minifyify": "^7.1.0"
+    "postcss-cli": "^2.1.0"
   },
   "scripts": {
     "build:css": "node-sass ./samples/style/index.scss | node ./utils/build/add-banner.js > ./samples/build/index.css",
@@ -22,7 +22,7 @@
     "build:js": " browserify -d ./samples/js/app.js | node ./utils/build/add-banner.js > ./samples/build/app.js",
     "build:js:minifyify": "browserify ./samples/js/app.js  -p [minifyify --no-map]  | node ./utils/build/add-banner.js > ./samples/build/app.js",
     "build:dev": "npm run build:css && npm run build:js",
-    "build:prod": "npm run build:css:minifyify && npm run build:js:minifyify"
+    "build:prod": "npm run build:css:minifyify && npm run build:js:minifyify && node ./utils/build/build-html ./utils/build/index.html > ./samples/build/index.html"
   },
   "repository": {
     "type": "git",
