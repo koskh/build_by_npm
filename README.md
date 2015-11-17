@@ -486,8 +486,9 @@ var html = ejs.render(template, {styles:'index.css?v=' + tick, scripts:'app.js?v
 
 process.stdout.write(html);
 ```
+Или вообще, regex-ом можем поменять два текстовых кусочка.
 
-строчка запуска
+Строка запуска
 ```
 "build:html": "node ./utils/build/build-html ./utils/build/index.html > ./samples/build/index.html"
 ```
