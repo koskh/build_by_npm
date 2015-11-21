@@ -461,6 +461,12 @@ PostCSS позволяет передавать список используе�
  ```
  "build:js:minifyify": "browserify ./samples/js/app.js  -p [minifyify --no-map]  | node ./utils/build/add-banner.js > ./samples/build/app.js"
  ```
+А можно выбрать для минификации uglify-js, что позволит нам на этапе конпоновки отключить все console.*  сообщения и не 
+выдумывать аналоги для `#ifdebug console.log(value) #endif` состояний.
+
+```
+"build:js:minifyify": "browserify ./samples/js/app.js | uglifyjs --compress drop_console,drop_debugger,warnings=false --mangle| node ./utils/build/add-banner.js > ./samples/build/app.js"
+````
  
 ### Сборка html файла ###
 Наша задача сформировать index.html для spa приложения. В пути к css и js пропишем дополнительный параметр, 
