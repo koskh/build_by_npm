@@ -21,6 +21,7 @@
   "scripts": {
     "build:html": "node ./utils/build/build-html ./utils/build/index.html > ./samples/build/index.html",
     "build:css": "node-sass ./samples/style/index.scss | node ./utils/build/add-banner.js > ./samples/build/index.css",
+    "watchify:css": "node-sass -w ./samples/style/index.scss | node ./utils/build/add-banner.js > ./samples/build/index.css",
     "build:css:minifyify": "node-sass ./samples/style/index.scss | postcss --config ./utils/build/config.postcss.json | node ./utils/build/add-banner.js  > ./samples/build/index.css",
     "build:js": "browserify --insert-global-vars DEBUG=true -d ./samples/js/app.js | node ./utils/build/add-banner.js > ./samples/build/app.js",
     "watchify:js": "watchify --insert-global-vars DEBUG=true -d ./samples/js/app.js  -o 'node ./utils/build/add-banner.js > ./samples/build/app.js' -v",
