@@ -449,6 +449,20 @@ PostCSS позволяет передавать список используе�
 ```
 "build:css:minif": "node-sass ./samples/style/index.scss | postcss --config ./utils/build/config.postcss.json | node ./utils/build/add-banner.js  > ./samples/build/index.css"
 ```
+### Инлайнинг svg ###
+в scss прописываем
+```
+background-image: inline(image.svg)
+```
+в настройках postcss-assets нужно прописать папку, с которой начинать искать svg-шки.
+```
+loadPath: './src/styles/icons/'
+```
+postcss-assets - инлайнит в виде `url(data:image/svg+xml...)`
+
+```
+node-sass _index.scss | postcss --use postcss-assets --use postcss-svgo -o index.css
+```
  
 ### Сборка и минификация JS ###
 Задача  схожа со сборкой css. Сборка в один файл, минификация, соурсмап, баннер с временем компиляции.
